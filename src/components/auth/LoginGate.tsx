@@ -130,7 +130,7 @@ export const LoginGate: React.FC<LoginGateProps> = ({ onLoginSuccess }) => {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="trader@mankatfx.com"
+                placeholder="tradertest@mankatfx.com"
                 required
                 className="w-full bg-[#181818] border border-[#2A2A2A] text-zinc-100 text-xs rounded-xl pl-10 pr-3.5 py-2.5 placeholder:text-zinc-600 focus:border-[#D4AF37] focus:outline-none transition"
               />
