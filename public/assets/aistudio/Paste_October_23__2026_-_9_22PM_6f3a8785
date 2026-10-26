@@ -1,0 +1,767 @@
+# Master Development Prompt: ManKatFx — Premium Trading Journal SaaS
+
+## 1. Project Overview
+
+Build a complete, production-ready trading journal and performance analytics SaaS application named **ManKatFx**.
+
+The platform should help traders record trades, analyze performance, calculate risk, monitor real-time market data, visualize progress, and generate detailed trading reports.
+
+The application must feel like a premium institutional trading terminal combined with a luxury fintech dashboard. It must be fully responsive, fast, intuitive, secure, and suitable for both desktop and mobile users.
+
+**Brand identity**
+- Brand name: ManKatFx
+- Product category: Trading Journal & Analytics SaaS
+- Visual identity: Luxury gold, matte black, charcoal, and subtle metallic gradients
+- Design inspiration: Premium fintech dashboards, professional trading terminals, and institutional analytics platforms
+- Primary goal: Make trading performance measurable, visually impressive, and easy to analyze.
+
+Do not create a static prototype. Implement functional authentication, database persistence, calculations, analytics, and live synchronization.
+
+## 2. Technology Stack
+
+Use the following technology stack unless a strong technical reason requires an alternative:
+
+- Frontend: React with TypeScript
+- Build tool: Vite
+- Styling: Tailwind CSS
+- UI components: shadcn/ui or an equivalent accessible component library
+- Charts: TradingView Lightweight Charts and Recharts
+- Backend: Firebase
+- Authentication: Firebase Authentication using email and password
+- Database: Cloud Firestore
+- Backend logic: Firebase Cloud Functions where appropriate
+- Deployment: Firebase Hosting
+- Market data: A configurable, licensed market-data API provider
+- Icons: Lucide
+- Animations: Framer Motion or an equivalent lightweight animation library
+- Validation: Zod or an equivalent schema validation library
+
+Organize the codebase into reusable components, pages, hooks, services, schemas, and utility functions.
+
+## 3. Luxury UI/UX Design System
+
+Create a polished, premium interface.
+
+### Color palette
+
+- Background: Near-black, approximately #090909
+- Secondary background: #111111
+- Elevated cards: #171717
+- Primary gold: #D4AF37
+- Champagne gold: #F2D675
+- Text: #F5F5F5
+- Secondary text: #A1A1AA
+- Profit: Elegant green
+- Loss: Restrained red
+- Borders: Subtle dark-gold accents
+
+Use gold selectively for important metrics, active navigation, chart highlights, buttons, and premium details. Avoid excessive gradients, glowing effects, and visual clutter.
+
+### Typography and components
+
+- Use modern, highly readable typography.
+- Display financial metrics with tabular numerals.
+- Use consistent spacing, rounded cards, subtle borders, and soft shadows.
+- Include skeleton loaders, empty states, tooltips, confirmation dialogs, and clear error messages.
+- Support keyboard navigation and accessible contrast.
+
+### Number rolling animations
+
+Implement smooth rolling-number animations for changing numerical values, including:
+
+- Account balance and equity
+- Net profit and loss
+- Win rate
+- Profit factor
+- Total trades
+- Average risk/reward
+- Drawdown
+- Monthly returns
+- Dashboard statistics
+
+Animations must trigger when a value actually changes, not continuously without reason. Use short, polished transitions and avoid distracting the user during frequent market updates.
+
+### Text scramble animations
+
+Implement a premium text-scramble effect for selected headings, dashboard titles, tab transitions, and occasional status labels.
+
+Requirements:
+- Trigger on relevant tab changes and selected page transitions.
+- Respect reduced-motion accessibility preferences.
+- Never scramble critical financial information in a way that reduces readability.
+- Avoid excessive animation and unnecessary CPU usage.
+
+## 4. Responsive Navigation
+
+### Desktop
+
+Create a professional sidebar with:
+
+- Overview
+- Trading Journal
+- Trade History
+- Analytics
+- Calendar
+- Reports
+- Risk Calculator
+- Position Size Calculator
+- Lot Size Calculator
+- Market Watch
+- Strategy Analysis
+- Goals
+- Settings
+
+Include the ManKatFx logo, active navigation indicators, and a compact user profile section.
+
+### Mobile
+
+Use a fixed bottom navigation bar with five primary destinations:
+
+- Home
+- Journal
+- Analytics
+- Calendar
+- Profile
+
+Place secondary tools inside a well-organized menu or tools screen.
+
+Ensure charts, forms, tables, and trade-entry flows work comfortably on small screens. Use horizontally scrollable tables only when necessary.
+
+## 5. Firebase Authentication
+
+Implement real Firebase Authentication with email and password.
+
+### Required functionality
+
+- Email and password registration
+- Email and password login
+- Logout
+- Password reset email
+- Email verification
+- Persistent login sessions
+- Authentication state restoration after refresh
+- Protected application routes
+- Account settings and password changes
+- User-friendly validation and authentication errors
+
+Users should remain logged in after refreshing or reopening the application until they explicitly log out, subject to their account and security settings.
+
+Use Firebase's appropriate browser-local persistence configuration.
+
+### Initial access password
+
+The requested initial access password is `259300`.
+
+Treat this as an initial access credential only, not a universal password shared across all accounts.
+
+Implement this safely:
+- Use it only in an optional, controlled first-time setup or invitation flow.
+- Never hardcode it into publicly shipped frontend code.
+- Never store passwords in Firestore or plaintext configuration files.
+- If it is used as a bootstrap credential, validate it on a trusted backend or replace it with a properly managed invitation mechanism.
+- Require every user to have their own Firebase Authentication account.
+- Allow users to change their passwords using Firebase's supported authentication flows.
+- Require reauthentication where necessary for sensitive changes.
+
+If the product is intended for personal use only, provide a configurable owner/admin account setup rather than relying on a permanent shared password.
+
+## 6. Firebase Live Data Synchronization
+
+Use Cloud Firestore as the source of truth for journal records and application data.
+
+### Data to persist
+
+- User profile and preferences
+- Trades
+- Trading accounts
+- Trading strategies
+- Watchlists
+- Risk settings
+- Trading goals
+- Journal notes
+- Screenshots and trade attachments
+- Monthly summaries
+- Tags and mistakes
+- Reports and export preferences
+
+### Synchronization requirements
+
+- Save changes to Firestore.
+- Fetch user data after successful authentication.
+- Use Firestore listeners for real-time updates where appropriate.
+- Update dashboard statistics when trades are created, edited, or deleted.
+- Support loading, error, offline, and retry states.
+- Prevent duplicate submissions and conflicting writes.
+- Use server timestamps for audit fields.
+- Implement pagination for large trade histories.
+- Reconcile cached data with server data after reconnection.
+- Scope every record to its owner.
+
+Store uploaded screenshots in Firebase Storage and keep their metadata in Firestore.
+
+Use a clear data model, for example:
+
+- `users/{uid}`
+- `users/{uid}/accounts/{accountId}`
+- `users/{uid}/trades/{tradeId}`
+- `users/{uid}/strategies/{strategyId}`
+- `users/{uid}/goals/{goalId}`
+- `users/{uid}/watchlists/{watchlistId}`
+- `users/{uid}/reports/{reportId}`
+
+Design indexes and query patterns intentionally. Do not load an entire user's trading history on every page.
+
+## 7. Trading Journal
+
+Build a comprehensive trade-entry form with the following fields:
+
+- Trade ID
+- Trading account
+- Instrument or symbol
+- Asset class
+- Market session
+- Trade date
+- Entry time and exit time
+- Long or short
+- Entry price
+- Exit price
+- Stop-loss price
+- Take-profit price
+- Quantity or position size
+- Lot size
+- Contract multiplier
+- Account currency
+- Risk percentage
+- Commission
+- Swap or funding costs
+- Gross profit/loss
+- Net profit/loss
+- Planned risk/reward ratio
+- Realized risk/reward ratio
+- Strategy
+- Setup type
+- Entry reason
+- Exit reason
+- Emotion before and after the trade
+- Rule-following score
+- Mistakes made
+- Lessons learned
+- Tags
+- Chart screenshots
+- Additional notes
+
+Automatically calculate applicable financial metrics when trade information changes.
+
+Support creating, editing, deleting, duplicating, filtering, sorting, and searching trades.
+
+Include validation for missing fields, invalid prices, position direction, and incomplete trades.
+
+Support manual trade entry first. Design the architecture so broker or exchange imports can be added later without making them mandatory.
+
+## 8. Trading Dashboard
+
+Create an impressive overview dashboard with date filters and account filters.
+
+### Primary performance cards
+
+- Starting balance
+- Current balance
+- Current equity, where available
+- Total net profit/loss
+- Realized profit/loss
+- Unrealized profit/loss, where reliable position data is available
+- Return percentage
+- Total trades
+- Winning trades
+- Losing trades
+- Win rate
+- Profit factor
+- Average winner
+- Average loser
+- Average risk/reward ratio
+- Expectancy per trade
+- Maximum drawdown
+- Average holding time
+- Long versus short performance
+
+Distinguish realized trading results from current account equity. Do not label a manually calculated journal balance as a verified live broker balance.
+
+### Dashboard charts
+
+Include:
+
+- Cumulative equity curve
+- Daily and monthly P&L
+- Monthly return heatmap
+- Winning versus losing trades
+- Win-rate trend
+- Drawdown curve
+- P&L by instrument
+- Performance by strategy
+- Performance by weekday
+- Performance by trading session
+- Long versus short comparison
+- Risk/reward distribution
+- Trade duration analysis
+- Rolling performance statistics
+
+All charts must respond to the selected date range and account. Use meaningful empty states when there is insufficient data.
+
+## 9. Advanced Analytics
+
+Build a dedicated analytics workspace.
+
+### Performance metrics
+
+Calculate and explain:
+
+- Win rate
+- Profit factor
+- Average win/loss
+- Expectancy
+- Payoff ratio
+- Net return
+- Maximum drawdown
+- Average risk per trade
+- Consecutive winning and losing streaks
+- Recovery factor
+- Return by setup
+- Return by instrument
+- Performance consistency
+- Rule-following percentage
+
+Define each metric clearly and handle cases where the denominator is zero or data is insufficient.
+
+For example:
+
+Expectancy per trade:
+
+Expectancy = (Win rate × Average win) − (Loss rate × Average loss magnitude)
+
+Profit factor:
+
+Profit factor = Gross profit ÷ Absolute gross loss
+
+Calculate drawdown from a consistently defined equity curve. Clearly distinguish percentage returns, currency amounts, and R-multiples.
+
+Do not fabricate results or present estimates as verified financial data.
+
+### Advanced analysis
+
+Include:
+- Best and worst trading days
+- Best and worst months
+- Performance by session
+- Strategy comparison
+- Instrument comparison
+- Performance after commissions and fees
+- Risk-adjusted trade statistics where appropriate
+- Trade distribution by setup
+- Performance by emotion and rule adherence
+- Performance before and after rule violations
+- Sample-size warnings for unreliable conclusions
+
+Provide actionable summaries based only on recorded data. Clearly label insights as descriptive rather than guaranteed predictions.
+
+## 10. Monthly Summary Reports
+
+Automatically generate monthly summaries from stored trade data.
+
+Each report should include:
+
+- Month and account
+- Starting and ending balance
+- Net profit/loss
+- Return percentage
+- Total trades
+- Win rate
+- Profit factor
+- Expectancy
+- Maximum drawdown
+- Best trade
+- Worst trade
+- Best strategy
+- Worst strategy
+- Best trading day
+- Common mistakes
+- Rule adherence
+- Lessons learned
+- Comparison with previous month
+- Progress toward trading goals
+
+Allow users to choose a month, view historical reports, and export reports as CSV or PDF.
+
+Reports must be reproducible from the underlying trade records. Use an explicit reporting timezone and a clear definition of monthly opening and closing balances.
+
+## 11. Risk Management and Trading Calculators
+
+Build a professional calculator suite.
+
+### Position size calculator
+
+Inputs:
+- Account balance or equity
+- Risk percentage
+- Entry price
+- Stop-loss price
+- Instrument
+- Contract multiplier or point value
+- Account currency
+- Fees and other relevant costs
+
+Outputs:
+- Cash risk
+- Stop distance
+- Position quantity
+- Lot size where applicable
+- Estimated loss at stop
+- Estimated reward at target
+- Reward-to-risk ratio
+
+### Lot size calculator
+
+Support configurable instrument specifications for forex pairs and other supported asset classes.
+
+Account for:
+- Base and quote currency
+- Pip or tick size
+- Pip or tick value
+- Contract size
+- Account currency conversion
+- Broker-specific lot increments
+- Minimum and maximum order sizes
+
+Do not assume every forex pair, CFD, index, metal, or crypto instrument uses the same contract specification.
+
+### Risk/reward calculator
+
+Calculate:
+- Stop distance
+- Target distance
+- Planned R:R
+- Potential loss
+- Potential profit
+- Break-even win rate before costs
+- Break-even win rate after estimated costs
+
+### Additional calculators
+
+- Compounding calculator
+- Risk-of-ruin estimator
+- Daily loss limit calculator
+- Weekly and monthly loss limit calculator
+- Drawdown recovery calculator
+- Kelly criterion calculator with conservative-use warnings
+- Pip and tick value calculator
+- Margin and leverage estimator
+- Multi-target partial-exit calculator
+- Average entry price calculator
+- Trade expectancy calculator
+- Portfolio exposure calculator
+
+Every calculator must have functional inputs, validated calculations, understandable outputs, and reset controls. Make instrument specifications configurable and disclose assumptions.
+
+## 12. Real-Time Market Data Integration
+
+Integrate a legitimate market-data provider through a replaceable provider adapter.
+
+Support only the instruments and data types offered by the chosen provider, such as:
+
+- Forex
+- Major indices
+- Stocks
+- Commodities
+- Metals
+- Cryptocurrency
+
+### Market Watch
+
+Build a live market dashboard with:
+
+- Symbol search
+- Watchlists
+- Last price
+- Bid and ask when provided
+- Daily change
+- Percentage change
+- Session status
+- Intraday chart
+- Historical candles
+- Market-data timestamp
+- Connection status
+- Data delay indicator
+
+Use WebSockets or the provider's supported streaming mechanism where available. Otherwise, use documented polling intervals appropriate to the provider.
+
+### Important data rules
+
+- Never fabricate live prices.
+- Never claim data is real-time if it is delayed.
+- Show whether data is live, delayed, stale, or unavailable.
+- Respect API rate limits and exchange licensing.
+- Keep secret API keys on a trusted backend.
+- Cache market data appropriately.
+- Handle disconnections and reconnections.
+- Avoid unnecessary API calls and excessive Firestore writes.
+
+Do not store every market tick in Firestore. Store journal data in Firestore and use a suitable market-data service for streaming prices.
+
+Use market prices for analysis and calculations only where the data is available and its timestamp and limitations are clear.
+
+## 13. Trading Calendar and Trade Review
+
+Create an interactive trading calendar.
+
+Each day should show:
+- Daily P&L
+- Number of trades
+- Win rate
+- Daily return
+- Important notes
+- Trading mistakes
+
+Clicking a day should open the trades and notes recorded for that date.
+
+Add a weekly and monthly review workflow with:
+- What went well
+- What went wrong
+- Best setup
+- Most common mistake
+- Rule adherence
+- Next week's improvement target
+
+## 14. Goals and Progress Tracking
+
+Allow users to define goals for:
+
+- Monthly return
+- Maximum drawdown
+- Minimum rule adherence
+- Minimum sample size
+- Journal completion
+- Maximum daily loss
+- Trading consistency
+
+Display progress indicators, milestones, and historical progress.
+
+Do not encourage excessive trading or imply that a target return is guaranteed.
+
+## 15. Data Import and Export
+
+Support:
+- CSV trade import
+- CSV export
+- PDF report export
+- Import preview
+- Column mapping
+- Date and number format handling
+- Duplicate detection
+- Invalid-row reporting
+- Import rollback or safe cancellation
+
+Design a normalized trade schema so additional broker and platform integrations can be added later.
+
+## 16. Settings and Account Management
+
+Include:
+- Profile
+- Email and password management
+- Account currency
+- Timezone
+- Date and number formats
+- Default risk percentage
+- Default account
+- Instrument preferences
+- Market-data provider configuration
+- Chart preferences
+- Animation preferences
+- Reduced-motion setting
+- Export and data management
+- Session logout
+
+Allow users to change their password securely. Never expose existing passwords.
+
+## 17. Security Requirements
+
+Security is mandatory.
+
+### Firebase Authentication
+Use Firebase Authentication for all user identities.
+
+### Firestore Security Rules
+Require authentication for all private data. Enforce ownership with the authenticated UID and validate permitted fields and types where appropriate.
+
+### Firebase Storage Rules
+Restrict uploaded files to their owner's authorized paths. Validate file size and allowed file types.
+
+### Secrets
+- Do not commit `.env` files containing secrets.
+- Do not expose private market-data API keys.
+- Do not use frontend-only password checks as an authorization mechanism.
+- Do not trust client-supplied user IDs, ownership fields, or calculated financial results without appropriate validation.
+- Never deploy open Firestore or Storage rules.
+
+### Admin and authorization
+Use server-controlled custom claims or an equivalent trusted authorization mechanism for administrator permissions. Do not allow users to grant themselves administrator access.
+
+Add rate limiting or abuse controls to sensitive backend operations where appropriate.
+
+## 18. Firebase Documentation File
+
+Create a complete Markdown file named exactly:
+
+`firebasesetup.md`
+
+This file must document the entire Firebase setup and integration process.
+
+Include:
+
+1. Prerequisites and required tools.
+2. Creating a Firebase project.
+3. Registering the web application.
+4. Configuring Firebase Authentication.
+5. Enabling email/password login.
+6. Configuring email verification and password reset.
+7. Setting up Cloud Firestore.
+8. Designing the collections and document schemas.
+9. Configuring Firebase Storage.
+10. Installing the Firebase SDK.
+11. Creating and validating environment variables.
+12. Configuring local development.
+13. Implementing authentication persistence.
+14. Connecting real-time Firestore listeners.
+15. Implementing secure Firestore Security Rules.
+16. Implementing secure Storage Rules.
+17. Setting up Firebase Cloud Functions.
+18. Securing market-data API credentials.
+19. Creating required indexes.
+20. Configuring deployment and hosting.
+21. Testing authentication and data synchronization.
+22. Troubleshooting common errors.
+23. Production security checklist.
+24. Instructions for changing passwords securely.
+25. Backup, export, and recovery procedures.
+
+Include working code examples that match the actual application implementation. Do not provide rules or schemas that conflict with the generated code.
+
+Clearly separate public Firebase configuration from private server-side secrets. Explain that Firebase web configuration is not a substitute for security rules.
+
+## 19. Suggested Project Structure
+
+Organize the application into a maintainable structure similar to:
+
+- `src/app/`
+- `src/components/`
+- `src/components/charts/`
+- `src/components/dashboard/`
+- `src/components/forms/`
+- `src/components/navigation/`
+- `src/features/auth/`
+- `src/features/journal/`
+- `src/features/analytics/`
+- `src/features/reports/`
+- `src/features/calculators/`
+- `src/features/market-watch/`
+- `src/features/calendar/`
+- `src/features/goals/`
+- `src/features/settings/`
+- `src/hooks/`
+- `src/lib/firebase/`
+- `src/lib/market-data/`
+- `src/services/`
+- `src/schemas/`
+- `src/types/`
+- `src/utils/`
+- `functions/`
+- `firebasesetup.md`
+- `.env.example`
+- `firebase.json`
+- `firestore.rules`
+- `firestore.indexes.json`
+- `storage.rules`
+- `README.md`
+
+Adjust the structure as necessary while preserving clear separation of concerns.
+
+## 20. Performance and Reliability
+
+- Lazy-load secondary pages.
+- Use pagination and indexed queries.
+- Avoid redundant Firestore listeners.
+- Unsubscribe from listeners when components unmount.
+- Memoize expensive calculations.
+- Keep animations lightweight.
+- Provide graceful handling of offline conditions.
+- Prevent stale listeners and memory leaks.
+- Add meaningful error logging without leaking secrets.
+- Test important financial calculations independently.
+- Ensure the application works on modern desktop and mobile browsers.
+
+## 21. Testing and Acceptance Criteria
+
+The application is complete only when the following requirements work:
+
+1. A user can register and log in using Firebase Authentication.
+2. A returning user stays logged in until logout, subject to session and security settings.
+3. Each user's private data is isolated from other users.
+4. Trades can be created, edited, deleted, searched, and filtered.
+5. Trades persist after refreshing or reopening the application.
+6. Changes appear in relevant views through live synchronization.
+7. Dashboard metrics update correctly after trade changes.
+8. Profit, loss, risk, reward, position sizing, and drawdown calculations pass tests.
+9. Monthly reports reflect the correct underlying trades.
+10. Charts respond to date and account filters.
+11. Market data displays its real source and freshness status.
+12. Calculators work with validated inputs.
+13. Desktop sidebar and mobile bottom navigation work correctly.
+14. Number and text animations work without harming readability.
+15. Password changes use secure authentication flows.
+16. Firestore and Storage rules prevent unauthorized access.
+17. The `firebasesetup.md` file is complete and matches the implementation.
+18. The project builds without TypeScript errors and contains no placeholder functionality falsely presented as complete.
+19. Important user flows have automated tests or documented verification steps.
+20. Deployment instructions are sufficient for a developer to configure and deploy the application.
+
+## 22. Implementation Instructions
+
+Build the actual application, not just a design mockup.
+
+Work in logical stages:
+
+**Stage 1:** Project structure, design system, routing, responsive navigation, Firebase setup.
+
+**Stage 2:** Authentication, protected routes, user settings, Firestore data model, security rules.
+
+**Stage 3:** Trading journal, trade validation, calculation engine, account management.
+
+**Stage 4:** Dashboard, performance charts, advanced analytics, monthly reports.
+
+**Stage 5:** Risk and lot size calculators, calendar, goals, import/export.
+
+**Stage 6:** Real-time market-data integration, watchlists, live connection states.
+
+**Stage 7:** Animations, accessibility, mobile optimization, testing, and production hardening.
+
+At every stage, keep the project runnable and verify integration between features.
+
+Do not use fake market feeds, hardcoded dashboard statistics, local-only storage as the primary database, placeholder login buttons, or simulated Firebase synchronization.
+
+If an external service requires credentials that have not been supplied, implement the integration interface, document the missing configuration, and show a clear unconfigured state rather than pretending the service is connected.
+
+### Final deliverables
+
+- Complete ManKatFx application source code.
+- Functional Firebase Authentication.
+- Cloud Firestore integration and live synchronization.
+- Firebase Security Rules and Storage Rules.
+- `firebasesetup.md`.
+- `.env.example`.
+- Market-data provider adapter and configuration instructions.
+- Responsive luxury dashboard.
+- Trading journal and advanced analytics.
+- Monthly summary reports.
+- Risk management and position sizing calculators.
+- Tests for core financial calculations.
+- Complete setup and deployment documentation.
+
+**Final design objective:** ManKatFx should feel like an elegant, professional trading performance platform built for serious traders, with the sophistication of a luxury fintech product and the reliability of a properly engineered SaaS application.

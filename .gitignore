@@ -1,0 +1,59 @@
+# Dependencies
+node_modules/
+/.pnp
+.pnp.js
+
+# Build and Production Outputs
+dist/
+build/
+coverage/
+*.tsbuildinfo
+
+# Environment variables, credentials, and secrets
+.env
+.env.*
+!.env.example
+*.local
+
+# Private keys, certificates, and secrets
+*.pem
+*.key
+*.cert
+*.crt
+*.pfx
+*.p12
+*.id_rsa
+secrets/
+credentials/
+
+# System and Package Manager Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+*.log
+
+# Operating System Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE and Editor Directories
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# AI Studio temporary files and artifacts
+.aistudio/
+
+# Local generated archives and bundles
+public/assets/aistudio/*.zip
