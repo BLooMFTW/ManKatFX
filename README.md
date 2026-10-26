@@ -1,20 +1,38 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://ai.google.dev/static/site-assets/images/share-ais-513315318.png" />
+ <div align="center">
+
+  <img src="public/logo.png" alt="ManKatFX Logo" width="180" />
+
+  # ManKatFX Trading Journal
+
+  **Trade with precision. Review with purpose. Grow with discipline.**
+
+  A modern, all-in-one trading journal designed to help traders track performance, manage risk, analyze strategies, and build consistent trading habits.
+
+  ---
+
 </div>
 
-# Run and deploy your AI Studio app
+## About
 
-This contains everything you need to run your app locally.
+ManKatFX is a trading performance workspace built for traders who want more than just a record of their trades. It brings journaling, analytics, risk management, strategy tracking, and performance review into one streamlined interface.
 
-View your app in AI Studio: https://ai.studio/apps/ba777a1f-3245-4cd8-a130-196bd1746076
+## Features
 
-## Run Locally
+- **Trading Dashboard** — Monitor key performance metrics and your trading progress.
+- **Trade Journal** — Log, organize, and review individual trades.
+- **Performance Analytics** — Understand win rates, profit and loss, drawdown, and trading patterns.
+- **Risk Management** — Use trading calculators to support position sizing and risk decisions.
+- **Trading Calendar** — Review trading activity and performance across dates.
+- **Strategy Tracking** — Document strategies and evaluate their performance.
+- **Backtesting** — Record and review historical strategy tests.
+- **Goals & Reports** — Track trading objectives and gain insights into your progress.
+- **Market Watch** — Keep relevant market information within reach.
+- **Responsive Design** — A sleek, dark interface with gold accents, built for a focused trading workflow.
 
-**Prerequisites:**  Node.js
+---
 
+<div align="center">
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+  **ManKatFX — Plan your trades. Track your edge. Master your process.**
+
+</div>
